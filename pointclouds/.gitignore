@@ -1,0 +1,5 @@
+# Potree binary data files — hosted on Cloudflare R2, not in git
+*.bin
+*.laz
+*.las
+log.txt
