@@ -18,7 +18,7 @@
     4. Update "Project Name" below (3 places: <title>, viewer.setDescription, the back link label).
   -->
 
-  <link rel="stylesheet" href="../../libs/Potree/potree.css">
+  <link rel="stylesheet" href="../../libs/Potree/build/potree/potree.css">
   <link rel="stylesheet" href="../../libs/Potree/libs/jquery-ui/jquery-ui.min.css">
   <link rel="stylesheet" href="../../libs/Potree/libs/openlayers3/ol.css">
   <link rel="stylesheet" href="../../libs/Potree/libs/spectrum/spectrum.css">
@@ -76,10 +76,10 @@
   <script src="../../libs/Potree/libs/proj4/proj4.js"></script>
   <script src="../../libs/Potree/libs/openlayers3/ol.js"></script>
   <script src="../../libs/Potree/libs/i18next/i18next.js"></script>
-  <script src="../../libs/Potree/potree.js"></script>
+  <script src="../../libs/Potree/build/potree/potree.js"></script>
 
   <script>
-    Potree.resourcePath = "../../libs/Potree";
+    Potree.resourcePath = new URL("../../libs/Potree/build/potree/", window.location.href).href;
 
     window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
 
@@ -103,6 +103,7 @@
       mat.size = 1;
       mat.pointSizeType = Potree.PointSizeType.ADAPTIVE;
       mat.shape = Potree.PointShape.SQUARE;
+      mat.colorType = Potree.PointColorType.HEIGHT;
 
       viewer.fitToScreen();
     });
