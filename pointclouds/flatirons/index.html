@@ -62,7 +62,7 @@
 
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
-    viewer.setPointBudget(2_000_000);
+    viewer.setPointBudget(10_000_000);
     viewer.setBackground("gradient");
     viewer.setDescription("Flatirons");
 
@@ -80,6 +80,10 @@
       mat.pointSizeType = Potree.PointSizeType.ADAPTIVE;
       mat.shape = Potree.PointShape.CIRCLE;
       mat.activeAttributeName = "rgba";
+
+      const scheme = JSON.parse(JSON.stringify(Potree.ClassificationScheme.DEFAULT));
+      scheme[7].visible = false;
+      viewer.setClassifications(scheme);
 
       viewer.fitToScreen(0.5);
     });

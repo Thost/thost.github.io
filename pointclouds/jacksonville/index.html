@@ -62,7 +62,7 @@
 
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
-    viewer.setPointBudget(2_000_000);
+    viewer.setPointBudget(10_000_000);
     viewer.setBackground("gradient");
     viewer.setDescription("Jacksonville");
 
@@ -80,6 +80,10 @@
       mat.pointSizeType = Potree.PointSizeType.ADAPTIVE;
       mat.shape = Potree.PointShape.CIRCLE;
       mat.activeAttributeName = "classification";
+
+      const scheme = JSON.parse(JSON.stringify(Potree.ClassificationScheme.DEFAULT));
+      scheme[7].visible = false;
+      viewer.setClassifications(scheme);
 
       viewer.scene.view.position.set(447309.60, 2177944.79, 676.94);
       viewer.scene.view.lookAt(new THREE.Vector3(447874.45, 2178256.55, 338.16));

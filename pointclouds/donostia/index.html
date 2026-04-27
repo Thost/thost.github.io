@@ -3,16 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>DATASET_NAME — Trevor Host</title>
-
-  <!--
-    SETUP INSTRUCTIONS
-    ==================
-    1. Copy this folder to pointclouds/your-project-name/
-    2. Run: PotreeConverter.exe input.laz -o pointclouds/your-project-name
-    3. Update DATASET_NAME in <title> and viewer.setDescription() below
-    4. Update the Potree.loadPointCloud() URL to your R2 path
-  -->
+  <title>Donostia — Trevor Host</title>
 
   <link rel="stylesheet" href="../../libs/Potree/build/potree/potree.css">
   <link rel="stylesheet" href="../../libs/Potree/libs/jquery-ui/jquery-ui.min.css">
@@ -53,6 +44,7 @@
   <script src="../../libs/Potree/libs/openlayers3/ol.js"></script>
   <script src="../../libs/Potree/libs/i18next/i18next.js"></script>
   <script src="../../libs/Potree/libs/jstree/jstree.js"></script>
+  <script src="../../libs/Potree/libs/copc/index.js"></script>
   <script src="../../libs/Potree/build/potree/potree.js"></script>
   <script src="../../libs/Potree/libs/plasio/js/laslaz.js"></script>
 
@@ -72,7 +64,7 @@
     viewer.setFOV(60);
     viewer.setPointBudget(10_000_000);
     viewer.setBackground("gradient");
-    viewer.setDescription("DATASET_NAME");
+    viewer.setDescription("Donostia-San Sebastián, Spain");
 
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
@@ -80,16 +72,21 @@
       viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud("https://YOUR-R2-URL/DATASET_NAME/metadata.json", "pointcloud", e => {
+    Potree.loadPointCloud("https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/donostia/donostia.copc.laz", "pointcloud", e => {
       viewer.scene.addPointCloud(e.pointcloud);
 
       const mat = e.pointcloud.material;
       mat.size = 1;
       mat.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-      mat.shape = Potree.PointShape.SQUARE;
-      mat.colorType = Potree.PointColorType.HEIGHT;
+      mat.shape = Potree.PointShape.CIRCLE;
+      mat.activeAttributeName = "classification";
 
-      viewer.fitToScreen();
+      const scheme = JSON.parse(JSON.stringify(Potree.ClassificationScheme.DEFAULT));
+      scheme[7].visible = false;
+      scheme[12].visible = false;
+      viewer.setClassifications(scheme);
+
+      viewer.fitToScreen(0.5);
     });
   </script>
 </body>
