@@ -77,7 +77,7 @@
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
       $("#menu_scene").next().show();
-      viewer.toggleSidebar();
+      if (window.innerWidth > 768) viewer.toggleSidebar();
     });
 
     Potree.loadPointCloud("https://YOUR-R2-URL/DATASET_NAME/metadata.json", "pointcloud", e => {

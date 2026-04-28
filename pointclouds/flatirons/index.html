@@ -69,7 +69,7 @@
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
       $("#menu_scene").next().show();
-      viewer.toggleSidebar();
+      if (window.innerWidth > 768) viewer.toggleSidebar();
     });
 
     Potree.loadPointCloud("https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/flatirons/flatirons_color.copc.laz", "pointcloud", e => {
