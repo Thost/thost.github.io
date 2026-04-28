@@ -79,7 +79,8 @@
       mat.size = 1;
       mat.pointSizeType = Potree.PointSizeType.ADAPTIVE;
       mat.shape = Potree.PointShape.CIRCLE;
-      mat.activeAttributeName = "classification";
+      mat.activeAttributeName = "rgba";
+
 
       const scheme = JSON.parse(JSON.stringify(Potree.ClassificationScheme.DEFAULT));
       scheme[7].visible = false;
