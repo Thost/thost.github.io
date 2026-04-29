@@ -31,6 +31,24 @@
       transition: background 0.2s;
     }
     #back-link:hover { background: rgba(56, 189, 248, 0.15); }
+
+    #attribution {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      z-index: 9999;
+      background: rgba(15, 17, 23, 0.75);
+      border: 1px solid #2a3050;
+      color: #8b9ab5;
+      padding: 0.35rem 0.7rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      line-height: 1.4;
+      max-width: 420px;
+      backdrop-filter: blur(6px);
+    }
+    #attribution a { color: #38bdf8; text-decoration: none; }
+    #attribution a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -49,6 +67,11 @@
   <script src="../../libs/Potree/libs/plasio/js/laslaz.js"></script>
 
   <a href="../../index.html" id="back-link">← Portfolio</a>
+
+  <div id="attribution">
+    Data: Japan Prefectures, 3D Point Cloud Data, accessed 2026-04-29 from
+    <a href="https://registry.opendata.aws/japan_pointcloud" target="_blank" rel="noopener">registry.opendata.aws/japan_pointcloud</a>
+  </div>
 
   <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;">
     <div id="potree_render_area"></div>
