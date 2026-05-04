@@ -35,7 +35,7 @@
     #attribution {
       position: fixed;
       bottom: 1rem;
-      left: 1rem;
+      right: 1rem;
       z-index: 9999;
       background: rgba(15, 17, 23, 0.75);
       border: 1px solid #2a3050;
@@ -45,6 +45,7 @@
       font-size: 0.72rem;
       line-height: 1.4;
       max-width: 420px;
+      text-align: right;
       backdrop-filter: blur(6px);
     }
     #attribution a { color: #38bdf8; text-decoration: none; }
@@ -95,7 +96,7 @@
       if (window.innerWidth > 768) viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud("https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/Minneapolis/Minneapolis2022.copc.laz", "pointcloud", e => {
+    Potree.loadPointCloud("https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/Minneapolis/Minneapolis2022.copc.laz", "Minneapolis2022", e => {
       viewer.scene.addPointCloud(e.pointcloud);
 
       const mat = e.pointcloud.material;

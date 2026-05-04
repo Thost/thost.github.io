@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Sensō-ji — Trevor Host</title>
+  <title>Dublin, Ireland — Trevor Host</title>
 
   <link rel="stylesheet" href="../../libs/Potree/build/potree/potree.css">
   <link rel="stylesheet" href="../../libs/Potree/libs/jquery-ui/jquery-ui.min.css">
@@ -70,8 +70,8 @@
   <a href="../../index.html" id="back-link">← Portfolio</a>
 
   <div id="attribution">
-    Data: Japan Prefectures, 3D Point Cloud Data, accessed 2026-04-29 from
-    <a href="https://registry.opendata.aws/japan_pointcloud" target="_blank" rel="noopener">registry.opendata.aws/japan_pointcloud</a>
+    Data: NYU Spatial Data Repository, accessed 2026-04-30,
+    <a href="https://archive.nyu.edu/handle/2451/33902" target="_blank" rel="noopener">NYU Archive</a>
   </div>
 
   <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;">
@@ -88,7 +88,7 @@
     viewer.setFOV(60);
     viewer.setPointBudget(10_000_000);
     viewer.setBackground("gradient");
-    viewer.setDescription("Sensō-ji, Asakusa, Tokyo");
+    viewer.setDescription("Dublin, Ireland");
 
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
@@ -96,17 +96,25 @@
       if (window.innerWidth > 768) viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud("https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/sensoji/senso-ji.copc.laz", "pointcloud", e => {
-      viewer.scene.addPointCloud(e.pointcloud);
-
+    const cloudSettings = e => {
       const mat = e.pointcloud.material;
       mat.size = 1;
       mat.pointSizeType = Potree.PointSizeType.ADAPTIVE;
       mat.shape = Potree.PointShape.CIRCLE;
       mat.activeAttributeName = "rgba";
 
+      const scheme = JSON.parse(JSON.stringify(Potree.ClassificationScheme.DEFAULT));
+      scheme[7].visible = false;
+      scheme[12].visible = false;
+      viewer.setClassifications(scheme);
+    };
+
+    Potree.loadPointCloud("https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/dublin/dublin_nyu_2015.copc.laz", "T_316000_233000.laz", e => {
+      viewer.scene.addPointCloud(e.pointcloud);
+      cloudSettings(e);
       viewer.fitToScreen(0.5);
     });
+
   </script>
 </body>
 </html>
