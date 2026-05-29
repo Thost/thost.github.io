@@ -76,6 +76,52 @@
       font-size: 0.8rem;
       font-family: sans-serif;
     }
+
+    #z-exag {
+      position: fixed;
+      bottom: 3rem;
+      right: 1rem;
+      z-index: 9999;
+      background: rgba(15, 17, 23, 0.85);
+      border: 1px solid #2a3050;
+      color: #8b9ab5;
+      padding: 0.45rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-family: sans-serif;
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      user-select: none;
+    }
+    #z-exag-val { color: #38bdf8; min-width: 2.5rem; display: inline-block; }
+    #z-exag-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100px;
+      height: 3px;
+      background: #2a3050;
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    #z-exag-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+    }
+    #z-exag-slider::-moz-range-thumb {
+      width: 13px;
+      height: 13px;
+      border: none;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -94,6 +140,11 @@
   <script src="../../libs/Potree/libs/plasio/js/laslaz.js"></script>
 
   <a href="../../index.html" id="back-link">← Portfolio</a>
+
+  <div id="z-exag">
+    <label>Z exag <span id="z-exag-val">1.0×</span></label>
+    <input type="range" id="z-exag-slider" min="1" max="3" step="0.25" value="1">
+  </div>
 
   <div id="loading-overlay">
     <div id="loading-spinner"></div>
@@ -157,6 +208,12 @@
         }
       });
     }
+
+    document.getElementById("z-exag-slider").addEventListener("input", e => {
+      const factor = parseFloat(e.target.value);
+      document.getElementById("z-exag-val").textContent = factor.toFixed(1) + "x";
+      if (groundMesh) groundMesh.scale.set(1, 1, factor);
+    });
 
     function positionGroundMesh() {
       if (groundMeshPositioned || !groundMesh) return;
