@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loading… — Trevor Host</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="site-title">
+          <a href="../index.html">Trevor Host</a>
+          <span class="site-tagline">LiDAR Point Cloud Portfolio</span>
+        </div>
+        <nav class="site-nav">
+          <a href="../index.html">Portfolio</a>
+          <a href="index.html" class="active">Blog</a>
+          <a href="../travel-map/index.html">Travel Map</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="post-content">
+      <div class="container">
+        <a href="index.html" class="back-link">← Blog</a>
+        <div class="post-header">
+          <h1 id="post-title">Loading…</h1>
+          <div class="post-date" id="post-date"></div>
+        </div>
+        <div class="post-body" id="post-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Trevor Host &middot; <a href="../index.html">Portfolio</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const slug = new URLSearchParams(window.location.search).get('slug');
+    if (!slug) {
+      document.getElementById('post-title').textContent = 'Post not found';
+    } else {
+      fetch(`posts/${slug}.md`)
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(raw => {
+          // Parse optional frontmatter block (--- ... ---)
+          let title = slug, date = '', body = raw;
+          const fm = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+          if (fm) {
+            const meta = fm[1];
+            body = fm[2];
+            (meta.match(/^title:\s*(.+)$/m) || [])[1]?.trim() && (title = RegExp.$1.trim());
+            (meta.match(/^date:\s*(.+)$/m)  || [])[1]?.trim() && (date  = RegExp.$1.trim());
+          }
+          document.title = `${title} — Trevor Host`;
+          document.getElementById('post-title').textContent = title;
+          document.getElementById('post-date').textContent  = date;
+          document.getElementById('post-body').innerHTML    = marked.parse(body);
+        })
+        .catch(() => {
+          document.getElementById('post-title').textContent = 'Post not found';
+          document.getElementById('post-body').textContent  = 'Could not load the requested post.';
+        });
+    }
+  </script>
+</body>
+</html>
