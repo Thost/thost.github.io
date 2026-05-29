@@ -50,6 +50,32 @@
     }
     #attribution a { color: #38bdf8; text-decoration: none; }
     #attribution a:hover { text-decoration: underline; }
+
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+    #loading-spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(56, 189, 248, 0.15);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading-label {
+      color: #8b9ab5;
+      font-size: 0.8rem;
+      font-family: sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -68,6 +94,11 @@
   <script src="../../libs/Potree/libs/plasio/js/laslaz.js"></script>
 
   <a href="../../index.html" id="back-link">← Portfolio</a>
+
+  <div id="loading-overlay">
+    <div id="loading-spinner"></div>
+    <div id="loading-label">Loading terrain…</div>
+  </div>
 
   <div id="attribution">
     Data: Landmælingar Íslands, Íslands DEM v1.0, accessed 2026-05-28,
@@ -202,26 +233,16 @@
         viewer.scene.scene.add(groundMesh);
         positionGroundMesh();
         tryAddToSidebar();
+        document.getElementById("loading-overlay").style.display = "none";
         console.log("Iceland GLB loaded");
       },
       undefined,
-      err => console.error("Iceland GLB failed:", err)
+      err => {
+        document.getElementById("loading-overlay").style.display = "none";
+        console.error("Iceland GLB failed:", err);
+      }
     );
 
-    new GLTFLoader().load(
-      "https://pub-e61a4aff6d73468ebe0aafe721061375.r2.dev/Iceland/IslandsDEMv1.0_2x2m_zmasl_isn2016_62_clip.glb",
-      gltf => {
-        groundMesh = gltf.scene;
-        groundMesh.frustumCulled = false;
-        groundMesh.traverse(child => { child.frustumCulled = false; });
-        viewer.scene.scene.add(groundMesh);
-        positionGroundMesh();
-        tryAddToSidebar();
-        console.log("Iceland GLB loaded");
-      },
-      undefined,
-      err => console.error("Iceland GLB failed:", err)
-    );
   </script>
 </body>
 </html>
